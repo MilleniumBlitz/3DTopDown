@@ -1,5 +1,7 @@
 extends KinematicBody
 
+class_name Player
+
 onready var camera = $Spatial/Camera
 var mouse_sens = 0.3
 var camera_anglev=0
@@ -13,10 +15,36 @@ var rayOrigin
 var rayEnd
 
 var ammo = 12
-var bullet = preload("res://Bullet.tscn")
+var bullet = preload("res://guns/Bullet.tscn")
 signal ammo_changed
 
+var object_to_interact
+var gun 
+
+func _ready():
+	switch_gun("res://guns/Gun.tscn")
+
+func switch_gun(gun_scene):
+	
+	# Remplace l'arme existante
+	if gun:
+		gun.queue_free()
+		
+	# Charge la nouvelle arme
+	var new_gun = load(gun_scene).instance()
+	new_gun.transform = $Rig/GunPosition.transform
+	gun = new_gun
+	$ShootTimer.wait_time = new_gun.fire_rate
+	$Rig.add_child(new_gun)
+
 func _input(event):
+
+	if event.is_action_pressed("interact"):
+		switch_gun("res://Gun2.tscn")
+		
+#		if object_to_interact != null:
+#			object_to_interact.interact()
+		
 
 	if event.is_action_pressed("rotate_camera"):
 		camera_rotating = true
@@ -52,7 +80,7 @@ func shoot():
 		
 		# Spawn a bullet
 		var new_bullet = bullet.instance()
-		new_bullet.global_transform = $Rig/ShootPosition.global_transform
+		new_bullet.global_transform = gun.shooting_point.global_transform
 		get_tree().get_root().add_child(new_bullet)
 		
 #		var result = space_state.intersect_ray($Rig/ShootPosition.global_transform.origin, Vector3(mousePos3D.x, translation.y, mousePos3D.z))
@@ -77,8 +105,8 @@ func _process(delta):
 	var move_x =  Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
 	var move_z =  Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
 	
-	var velocity = Vector3(move_x, 0, move_z)
-	move_and_slide(velocity * speed * delta)
+	var velocity = Vector3(move_x, -10, move_z)
+	velocity = move_and_slide(velocity * speed * delta, Vector3.UP)
 
 	# ROTATION PERSONNAGE
 	var mouse_position = get_viewport().get_mouse_position()
@@ -90,6 +118,7 @@ func _process(delta):
 	
 	if not intersection.empty() and not camera_rotating:
 		var pos = intersection.position
+#		print(intersection.collider.name)
 		$Rig.look_at(Vector3(pos.x, translation.y, pos.z), Vector3.UP)
 
 	
