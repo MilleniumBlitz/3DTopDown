@@ -14,6 +14,8 @@ var space_state
 var rayOrigin
 var rayEnd
 
+var gravity = -100
+
 
 signal ammo_changed
 
@@ -82,6 +84,7 @@ func _input(event):
 				camera_anglev += changev
 #				$Spatial.rotate_x(deg2rad(changev))
 	
+	
 
 func _process(delta):
 
@@ -94,9 +97,11 @@ func _process(delta):
 	# MOUVEMENT
 	var move_x =  Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
 	var move_z =  Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
-	
-	var velocity = Vector3(move_x, -10, move_z)
-	velocity = move_and_slide(velocity * speed * delta, Vector3.UP)
+	var vy = velocity.y
+	velocity = Vector3(move_x, 0, move_z) * speed
+	velocity.y = vy
+	velocity.y += gravity * delta
+	move_and_slide(velocity * delta, Vector3.UP)
 
 	# ROTATION PERSONNAGE
 	var mouse_position = get_viewport().get_mouse_position()

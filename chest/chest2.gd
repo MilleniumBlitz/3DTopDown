@@ -1,7 +1,7 @@
 extends Spatial
 	
 func interact():
-	print("interacted")
+#	print("interacted")
 	$AnimationPlayer.play("Cube001Action")
 
 func _on_Area_body_entered(body):
