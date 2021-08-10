@@ -25,7 +25,7 @@ var current_gun : Gun
 var guns = []
 
 func _ready():
-	add_gun("res://guns/Gun.tscn")
+	add_gun("res://guns/models/BasicGun.tscn")
 
 func switch_gun(number):
 	
@@ -62,11 +62,9 @@ func _input(event):
 		switch_gun(input_as_int - 1)
 
 	if event.is_action_pressed("interact"):
-		add_gun("res://guns/Gun2.tscn")
-#		switch_gun("res://guns/Gun2.tscn")
-		
-#		if object_to_interact != null:
-#			object_to_interact.interact()
+		if object_to_interact != null:
+			object_to_interact.interact()
+			
 	if event.is_action_pressed("reload"):
 		current_gun.reload()
 

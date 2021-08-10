@@ -5,8 +5,8 @@ class_name Gun
 var bullet = preload("res://guns/Bullet.tscn")
 
 export(float) var fire_rate = 1
-onready var shooting_point = $Position3D
-var mag_size = 12
+export(int) var mag_size = 20
+onready var shooting_point = $ShootPosition
 var ammo = mag_size
 
 func _ready():
@@ -26,7 +26,7 @@ func shoot():
 			
 			# Spawn a bullet
 			var new_bullet = bullet.instance()
-			new_bullet.global_transform = $Position3D.global_transform
+			new_bullet.global_transform = shooting_point.global_transform
 			get_tree().get_root().add_child(new_bullet)
 
 func reload():

@@ -1,22 +1,17 @@
 extends Spatial
 
+var player
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+func interact():
+	# The player pick the item
+	player.add_gun("res://guns/models/MP5.tscn")
+	queue_free()
 
 func _on_Area_body_entered(body):
 	if body is Player:
-		body.add_gun("res://guns/Gun2.tscn")
-	pass # Replace with function body.
+		player = body
+		body.object_to_interact = self
+		
+func _on_Area_body_exited(body):
+	if body is Player:
+		body.object_to_interact = null

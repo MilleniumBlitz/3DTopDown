@@ -2,7 +2,7 @@ extends Spatial
 
 onready var player = $Player
 onready var debugUI = $DebugUI
-onready var camera = $Camera
+#onready var camera = $Camera
 
 func _ready():
 #	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
