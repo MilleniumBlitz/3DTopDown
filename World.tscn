@@ -35,19 +35,10 @@ script = ExtResource( 6 )
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.19826, 0 )
 
 [node name="Plane" type="StaticBody" parent="."]
-transform = Transform( 3.15938, 0, 0, 0, 1, 0, 0, 0, 4.75544, 0, 0, 0 )
+transform = Transform( 7.60812, 0, 0, 0, 2.4081, 0, 0, 0, 11.4516, 0, 0, 0 )
+collision_layer = 9
 
 [node name="MeshInstance" type="MeshInstance" parent="Plane"]
-transform = Transform( 8.39063, 0, 0, 0, 8.39063, 0, 0, 0, 8.39063, -0.010381, 0, 16.6918 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance3" type="MeshInstance" parent="Plane"]
-transform = Transform( 8.39063, 0, 0, 0, 8.39063, 0, 0, 0, 8.39063, -0.010381, 0, 33.0064 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshInstance2" type="MeshInstance" parent="Plane"]
 transform = Transform( 8.39063, 0, 0, 0, 8.39063, 0, 0, 0, 8.39063, -0.010381, 0, 0.0171409 )
 mesh = SubResource( 1 )
 material/0 = null

@@ -14,37 +14,59 @@ var space_state
 var rayOrigin
 var rayEnd
 
-var ammo = 12
-var bullet = preload("res://guns/Bullet.tscn")
+
 signal ammo_changed
 
 var object_to_interact
-var gun 
+
+var current_gun : Gun
+var guns = []
 
 func _ready():
-	switch_gun("res://guns/Gun.tscn")
+	add_gun("res://guns/Gun.tscn")
 
-func switch_gun(gun_scene):
+func switch_gun(number):
+	
+	if guns.size() > number:
+		
+		if current_gun:
+			current_gun.get_parent().remove_child(current_gun)
+		
+		# Charge la nouvelle arme
+		var new_gun = guns[number]
+		spawn_gun(new_gun)
+
+func add_gun(gun_scene):
 	
 	# Remplace l'arme existante
-	if gun:
-		gun.queue_free()
-		
-	# Charge la nouvelle arme
+	if current_gun:
+		current_gun.get_parent().remove_child(current_gun)
+	
 	var new_gun = load(gun_scene).instance()
-	new_gun.transform = $Rig/GunPosition.transform
-	gun = new_gun
-	$ShootTimer.wait_time = new_gun.fire_rate
-	$Rig.add_child(new_gun)
+	spawn_gun(new_gun)
+	guns.append(new_gun)
+	
+func spawn_gun(gun):
+	
+	gun.transform = $Rig/GunPosition.transform
+	current_gun = gun
+	$Rig.add_child(gun)
 
 func _input(event):
+	
+	# weapon switch keyboard
+	var input_as_int = int(event.as_text())
+	if input_as_int > 0 and input_as_int< 10 :
+		switch_gun(input_as_int - 1)
 
 	if event.is_action_pressed("interact"):
-		switch_gun("res://Gun2.tscn")
+		add_gun("res://guns/Gun2.tscn")
+#		switch_gun("res://guns/Gun2.tscn")
 		
 #		if object_to_interact != null:
 #			object_to_interact.interact()
-		
+	if event.is_action_pressed("reload"):
+		current_gun.reload()
 
 	if event.is_action_pressed("rotate_camera"):
 		camera_rotating = true
@@ -59,45 +81,13 @@ func _input(event):
 			if camera_anglev + changev >- 50 and camera_anglev +changev < 50:
 				camera_anglev += changev
 #				$Spatial.rotate_x(deg2rad(changev))
-func reload():
-	$ReloadTimer.start()
-	$ReloadSound.play()
-	ammo = 12
-	emit_signal("ammo_changed", ammo)
 	
-func shoot():
-	
-	# If no ammo left, reload
-	if ammo == 0:
-			reload()
-	else:
-		ammo -= 1
-		emit_signal("ammo_changed", ammo)
-		
-		# Sound
-		$ShootSound.play()
-		$ShootTimer.start()
-		
-		# Spawn a bullet
-		var new_bullet = bullet.instance()
-		new_bullet.global_transform = gun.shooting_point.global_transform
-		get_tree().get_root().add_child(new_bullet)
-		
-#		var result = space_state.intersect_ray($Rig/ShootPosition.global_transform.origin, Vector3(mousePos3D.x, translation.y, mousePos3D.z))
-#		if result:
-#			var hit_body = result.collider
-#			var DAMAGE = 5
-#			if hit_body.has_method("bullet_hit"):
-#				hit_body.bullet_hit(DAMAGE)
-#			print("toto : ", result.collider.name)
-#			print("ouch ", result.position)
-		
 
 func _process(delta):
 
 	# TIR
-	if Input.is_action_pressed("tir") and $ShootTimer.is_stopped() and $ReloadTimer.is_stopped():
-		shoot()
+	if Input.is_action_pressed("tir") :
+		current_gun.shoot()
 
 	space_state = get_world().direct_space_state
 	
@@ -114,13 +104,9 @@ func _process(delta):
 	rayOrigin = camera.project_ray_origin(mouse_position)
 	rayEnd = rayOrigin + camera.project_ray_normal(mouse_position) * 2000
 	
-	var intersection = space_state.intersect_ray(rayOrigin, rayEnd, [self])
+	var intersection = space_state.intersect_ray(rayOrigin, rayEnd, [], 8)
 	
 	if not intersection.empty() and not camera_rotating:
 		var pos = intersection.position
 #		print(intersection.collider.name)
 		$Rig.look_at(Vector3(pos.x, translation.y, pos.z), Vector3.UP)
-
-	
-	
-	
