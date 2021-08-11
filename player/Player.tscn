@@ -23,7 +23,7 @@ spot_angle = 57.5
 spot_angle_attenuation = 3.36359
 
 [node name="GunPosition" type="Position3D" parent="Rig"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.662251, 0.801955, 0.0378208 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.701511, 0.801955, 0.0378209 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, -0.013, 0.75104, 0 )

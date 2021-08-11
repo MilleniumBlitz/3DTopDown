@@ -95,9 +95,9 @@ func _process(delta):
 	# MOUVEMENT
 	var move_x =  Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
 	var move_z =  Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
-	var vy = velocity.y
-	velocity = Vector3(move_x, 0, move_z) * speed
-	velocity.y = vy
+#	var vy = velocity.y
+	velocity = Vector3(move_x, 0, move_z).normalized() * speed
+#	velocity.y = vy
 	velocity.y += gravity * delta
 	move_and_slide(velocity * delta, Vector3.UP)
 
