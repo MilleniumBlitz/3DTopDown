@@ -8,7 +8,7 @@ var camera_anglev=0
 var camera_rotating = false
 
 var velocity := Vector3()
-var speed = 500
+var speed = 1000
 
 var space_state
 var rayOrigin
@@ -92,14 +92,26 @@ func _process(delta):
 
 	space_state = get_world().direct_space_state
 	
-	# MOUVEMENT
-	var move_x =  Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
-	var move_z =  Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
-#	var vy = velocity.y
-	velocity = Vector3(move_x, 0, move_z).normalized() * speed
-#	velocity.y = vy
-	velocity.y += gravity * delta
-	move_and_slide(velocity * delta, Vector3.UP)
+	
+	var move_x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
+	if move_x == 0:
+		velocity.x = lerp(velocity.x, 0, 0.1)
+	else:
+		velocity.x = move_x
+		
+	var move_z = Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
+	if move_z == 0:
+		velocity.z = lerp(velocity.z, 0, 0.1)
+	else:
+		velocity.z = move_z
+		
+	
+		
+#	velocity.z = Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
+	
+#	velocity = velocity.normalized() 
+	velocity.y = 0
+	move_and_slide(velocity * speed * delta, Vector3.UP)
 
 	# ROTATION PERSONNAGE
 	var mouse_position = get_viewport().get_mouse_position()
