@@ -8,14 +8,14 @@ var camera_anglev=0
 var camera_rotating = false
 
 var velocity := Vector3()
-var speed = 1000
+var speed = 10
+var max_speed = 10
 
 var space_state
 var rayOrigin
 var rayEnd
 
 var gravity = -100
-
 
 signal ammo_changed
 
@@ -50,7 +50,7 @@ func add_gun(gun_scene):
 	
 func spawn_gun(gun):
 	
-	gun.transform = $Rig/GunPosition.transform
+	gun.transform.origin = $Rig/GunPosition.transform.origin
 	current_gun = gun
 	$Rig.add_child(gun)
 
@@ -80,10 +80,7 @@ func _input(event):
 			var changev =- event.relative.y*mouse_sens
 			if camera_anglev + changev >- 50 and camera_anglev +changev < 50:
 				camera_anglev += changev
-#				$Spatial.rotate_x(deg2rad(changev))
-	
-	
-
+				
 func _process(delta):
 
 	# TIR
@@ -92,26 +89,22 @@ func _process(delta):
 
 	space_state = get_world().direct_space_state
 	
+	var direction = Vector3()
 	
-	var move_x = Input.get_action_strength("move_left") - Input.get_action_strength("move_right")
-	if move_x == 0:
-		velocity.x = lerp(velocity.x, 0, 0.1)
+	if Input.is_action_pressed("move_backward"):
+		direction.z -= 1
+	if Input.is_action_pressed("move_forward"):
+		direction.z += 1
+		
+	if direction.z == 0:
+		velocity = velocity.linear_interpolate(Vector3.ZERO, 0.5)
 	else:
-		velocity.x = move_x
-		
-	var move_z = Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
-	if move_z == 0:
-		velocity.z = lerp(velocity.z, 0, 0.1)
-	else:
-		velocity.z = move_z
-		
+		velocity = -$Rig.global_transform.basis.z * direction.z * speed
 	
-		
-#	velocity.z = Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
 	
-#	velocity = velocity.normalized() 
 	velocity.y = 0
-	move_and_slide(velocity * speed * delta, Vector3.UP)
+	
+	velocity = move_and_slide(velocity, Vector3.UP)
 
 	# ROTATION PERSONNAGE
 	var mouse_position = get_viewport().get_mouse_position()
@@ -123,5 +116,4 @@ func _process(delta):
 	
 	if not intersection.empty() and not camera_rotating:
 		var pos = intersection.position
-#		print(intersection.collider.name)
 		$Rig.look_at(Vector3(pos.x, translation.y, pos.z), Vector3.UP)

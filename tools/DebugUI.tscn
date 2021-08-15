@@ -5,12 +5,20 @@
 [node name="DebugUI" type="CanvasLayer"]
 script = ExtResource( 1 )
 
-[node name="Ammo" type="Label" parent="."]
+[node name="Panel" type="Panel" parent="."]
+modulate = Color( 1, 1, 1, 0.392157 )
+margin_right = 294.0
+margin_bottom = 80.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="Panel"]
 margin_left = 26.0
 margin_top = 12.0
 margin_right = 77.0
 margin_bottom = 26.0
-text = "Ammo :"
+text = "Info"
 __meta__ = {
 "_edit_use_anchors_": false
 }

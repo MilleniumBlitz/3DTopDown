@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://guns/mp5a3_low_poly/mp5.tscn" type="PackedScene" id=1]
+[ext_resource path="res://guns/mp5a3_low_poly/scene.gltf" type="PackedScene" id=1]
 [ext_resource path="res://guns/Gun.tscn" type="PackedScene" id=2]
 
 [node name="MP5" instance=ExtResource( 2 )]
@@ -9,5 +9,5 @@ fire_rate = 0.1
 [node name="ShootPosition" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.111775, -0.489032 )
 
-[node name="scene" parent="." index="5" instance=ExtResource( 1 )]
-transform = Transform( -5.63395e-09, 0, -0.12889, 0, 0.12889, 0, 0.12889, 0, -5.63395e-09, 0, 0, 0 )
+[node name="scene2" parent="." index="5" instance=ExtResource( 1 )]
+transform = Transform( -4.37114e-11, 0, -0.001, 0, 0.001, 0, 0.001, 0, -4.37114e-11, 0, 0, 0 )

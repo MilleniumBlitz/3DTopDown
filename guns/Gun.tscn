@@ -5,7 +5,6 @@
 [ext_resource path="res://guns/GunShotSnglShotIn PE1097906.mp3" type="AudioStream" id=3]
 
 [node name="Gun" type="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.002, 0, 0 )
 script = ExtResource( 1 )
 fire_rate = 0.2
 
