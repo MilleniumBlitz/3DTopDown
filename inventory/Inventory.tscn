@@ -1,0 +1,54 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://inventory/Inventory.gd" type="Script" id=1]
+[ext_resource path="res://inventory/InventorySpace.tscn" type="PackedScene" id=2]
+
+[node name="Inventory" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 20.0
+margin_top = 20.0
+margin_right = -20.0
+margin_bottom = -20.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSplitContainer" type="HSplitContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = -10.0
+margin_bottom = -10.0
+split_offset = 400
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HSplitContainer"]
+margin_right = 400.0
+margin_bottom = 540.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="HSplitContainer/ScrollContainer"]
+margin_right = 160.0
+margin_bottom = 78.0
+columns = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InventorySpace" parent="HSplitContainer/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+
+[node name="InventorySpace2" parent="HSplitContainer/ScrollContainer/GridContainer" instance=ExtResource( 2 )]
+margin_left = 82.0
+margin_right = 160.0
+
+[node name="Button" type="Button" parent="HSplitContainer"]
+margin_left = 412.0
+margin_right = 964.0
+margin_bottom = 540.0

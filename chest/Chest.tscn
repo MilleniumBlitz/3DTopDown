@@ -18,4 +18,7 @@ transform = Transform( -1.68598e-07, 0, 2.63346, 0, 0.377006, 0, -1.4143, 0, -3.
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.411623, 1.33792 )
 shape = SubResource( 1 )
 
+[node name="ItemPosition" type="Position3D" parent="." index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.791188, 3.04303 )
+
 [connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]

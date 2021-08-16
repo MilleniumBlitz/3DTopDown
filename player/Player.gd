@@ -24,6 +24,8 @@ var object_to_interact
 var current_gun : Gun
 var guns = []
 
+signal inventory_add
+
 func _ready():
 	add_gun("res://guns/models/BasicGun.tscn")
 
@@ -47,6 +49,7 @@ func add_gun(gun_scene):
 	var new_gun = load(gun_scene).instance()
 	spawn_gun(new_gun)
 	guns.append(new_gun)
+	emit_signal("inventory_add", new_gun)
 	
 func spawn_gun(gun):
 	
