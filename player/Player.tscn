@@ -12,7 +12,7 @@ script = ExtResource( 3 )
 [node name="Rig" type="Spatial" parent="."]
 
 [node name="CSGMesh" type="CSGMesh" parent="Rig"]
-transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.54, 0, 0.5, -2.36041e-08, -0.0159167, 0.757892, -0.00165987 )
+transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0 )
 mesh = SubResource( 1 )
 
 [node name="SpotLight" type="SpotLight" parent="Rig"]
@@ -22,10 +22,10 @@ spot_angle = 57.5
 spot_angle_attenuation = 3.36359
 
 [node name="GunPosition" type="Position3D" parent="Rig"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.701511, 0.801955, 0.0378209 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.586339, -0.00424838, 0.0378209 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, -0.013, 0.75104, 0 )
+transform = Transform( 0.5, 0, 0, 0, -2.18557e-08, -0.5, 0, 0.5, -2.18557e-08, 0, 0, 0 )
 shape = SubResource( 2 )
 
 [node name="Spatial" type="Spatial" parent="."]

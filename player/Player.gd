@@ -76,37 +76,36 @@ func _input(event):
 		
 	if event is InputEventMouseMotion:
 		if camera_rotating:
-			$Spatial.rotate_y(deg2rad(-event.relative.x*mouse_sens))
-			var changev =- event.relative.y*mouse_sens
-			if camera_anglev + changev >- 50 and camera_anglev +changev < 50:
+			$Spatial.rotate_y(deg2rad(-event.relative.x * mouse_sens))
+			var changev =- event.relative.y * mouse_sens
+			if camera_anglev + changev >- 50 and camera_anglev + changev < 50:
 				camera_anglev += changev
 				
+func get_direction() -> Vector3:
+	var direction = Vector3()
+	direction.z = Input.get_action_strength("move_forward") - Input.get_action_strength("move_backward")
+	direction.x = Input.get_action_strength("move_right") - Input.get_action_strength("move_left")		
+	return direction
+				
 func _process(delta):
+
+	space_state = get_world().direct_space_state
 
 	# TIR
 	if Input.is_action_pressed("tir") :
 		current_gun.shoot()
 
-	space_state = get_world().direct_space_state
-	
-	var direction = Vector3()
-	
-	if Input.is_action_pressed("move_backward"):
-		direction.z -= 1
-	if Input.is_action_pressed("move_forward"):
-		direction.z += 1
-		
-	if direction.z == 0:
-		velocity = velocity.linear_interpolate(Vector3.ZERO, 0.5)
-	else:
-		velocity = -$Rig.global_transform.basis.z * direction.z * speed
-	
-	
+	# MOUVEMENT
+	var direction = get_direction()	
+	velocity = ((-$Spatial.global_transform.basis.z * direction.z) + ($Spatial.global_transform.basis.x * direction.x)).normalized() * speed
 	velocity.y = 0
 	
 	velocity = move_and_slide(velocity, Vector3.UP)
 
-	# ROTATION PERSONNAGE
+	# ROTATION PERSONNAGE SOURIS
+	player_rotation()
+	
+func player_rotation():
 	var mouse_position = get_viewport().get_mouse_position()
 	
 	rayOrigin = camera.project_ray_origin(mouse_position)
